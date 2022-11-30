@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block 'sub-title' %}
+    <h1 class="mt-5">Perguntas:</h1>
+    <br>
+{% endblock %}
+
+{% block 'conteudo' %}
+    {% if latest_question_list %}
+        <table class="table" style="color: field;">
+            <thead>
+                <tr>
+                    <th>Pergunta</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pergunta in latest_question_list %}
+                <tr>
+                    <th>
+                        <a href="{% url 'perguntas:detalhe' pergunta.id %}"> {{pergunta.texto_pergunta}} </a>
+                    </th>
+                    <th>
+                        {{pergunta.data}}
+                    </th>
+                </tr>
+                <!-- {% if pergunta.options %} -->
+                    <!-- {% endif %} -->
+                    {% endfor %}
+            </tbody>
+        </table>
+    <!-- <ul>
+            {% for pergunta in lista_perguntas %}
+                <li> <a href="{% url  'detalhe' question_id=pergunta.id %}"> {{ pergunta.texto_pergunta }} </a> </li>
+            {% endfor %}
+        </ul> -->
+    {% else %}
+        <p>Não a perguntas no momento!</p>
+    {% endif %}
+    
+{% endblock %}

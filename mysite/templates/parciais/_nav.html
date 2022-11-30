@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg static-top" style="background: #0047ab;" >
+    <div class="container">
+        <a class="navbar-brand" href="#" style="color: field;" >Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a style="color: field;" class="nav-item nav-link active" href="{% url 'perguntas:index' %}">Perguntas <span class="sr-only">(current)</span></a>
+            </div>
+        </div>
+    </div>
+    <form method="get" action="#" style="width: 30%;">        
+        <div class="input-group">
+            <input class="form-control rounded" 
+            type="search" 
+            name="termo"
+            placeholder="Digite sua pesquisa" 
+            aria-label="Search" 
+            aria-describedby="search-addon" 
+            />
+            <div style="width: 2%;" ></div>
+            <button style="color: field;" class="btn btn-outline-info my-2 my-sm-0" type="submit">Buscar</button>
+        </div>
+    </form>
+</nav>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block 'sub-title' %}
+    <h1 class="mt-5">{{ question.texto_pergunta }}</h1>
+{% endblock %}
+
+{% block 'conteudo' %}
+    <!-- <p>{{question.text_escolha}}</p>
+    <p>{{question.escolha_set.all }}</p> -->
+    <ul>
+    {% for choice in question.escolha_set.all %}
+        <li>{{ choice.text_escolha }} -- {{ choice.votos }} voto{{ choice.votos|pluralize }}</li>
+    {% endfor %}
+    </ul>
+
+    <a href="{% url 'perguntas:detalhe' question.id %}">Vote again?</a>
+{% endblock %}
+
