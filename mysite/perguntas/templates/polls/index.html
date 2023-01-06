@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block 'sub-title' %}
     <h1 class="mt-5">Perguntas:</h1>
@@ -21,7 +22,7 @@
                         <a href="{% url 'perguntas:detalhe' pergunta.id %}"> {{pergunta.texto_pergunta}} </a>
                     </th>
                     <th>
-                        {{pergunta.data}}
+                        {{pergunta.data|naturalday }}
                     </th>
                 </tr>
                 <!-- {% if pergunta.options %} -->
@@ -37,5 +38,4 @@
     {% else %}
         <p>Não a perguntas no momento!</p>
     {% endif %}
-    
 {% endblock %}

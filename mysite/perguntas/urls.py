@@ -10,6 +10,7 @@ urlpatterns = [
     # ex: /polls/5/
     path('<int:pk>/resultado/', views.ResultsView.as_view(), name='resultado'),
     # # ex: /polls/5/resultado/
-    path('<int:question_id>/votos/', views.votar, name='votos')
+    path('<int:question_id>/votos/', views.votar, name='votos'),
     # # ex: /polls/5/votos/
+    path('busca/', views.SearchView.as_view(), name='busca'),
 ]

@@ -4,7 +4,8 @@ from .models import Pergunta, Escolha
 from django.views import generic
 from django.urls import reverse
 from django.utils import timezone
-# from django.db.models import Q
+from django.db import connection
+from django.db.models import Q
 
 
 # Create your views here.
@@ -19,6 +20,17 @@ class IndexView(generic.ListView):
         ).order_by('-data')[:10]
         return pergunta
 
+
+class SearchView(IndexView):
+    template_name: str = 'polls/busca.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        termo = self.request.GET.get('termo')
+        qs = Pergunta.objects.filter(
+            Q(texto_pergunta__icontains=termo)
+        )
+        return qs
 
 class DetailView(generic.DetailView):
     model = Pergunta
