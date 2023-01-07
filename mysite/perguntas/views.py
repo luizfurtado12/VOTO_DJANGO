@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from .models import Pergunta, Escolha
 from django.views import generic
@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.db import connection
 from django.db.models import Q
+from .forms import FormPergunta
 
 
 # Create your views here.
@@ -49,6 +50,13 @@ class ResultsView(generic.DeleteView):
 
     def get_queryset(self):
         return Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
+
+
+def adicionar_pergunta(request):
+    if request.method == 'POST':
+        form = FormPergunta()
+        return render(request, 'pergunta/form_template.html', {'formulario': form})
+    return redirect('perguntas:index')
 
 
 def votar(request, question_id):
