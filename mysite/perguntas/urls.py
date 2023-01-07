@@ -1,4 +1,3 @@
-from operator import index
 from django.urls import path
 from . import views
 
@@ -13,5 +12,4 @@ urlpatterns = [
     path('<int:question_id>/votos/', views.votar, name='votos'),
     # # ex: /polls/5/votos/
     path('busca/', views.SearchView.as_view(), name='busca'),
-    path('cadastrar-pergunta/', views.adicionar_pergunta, name='form_pergunta'),
 ]

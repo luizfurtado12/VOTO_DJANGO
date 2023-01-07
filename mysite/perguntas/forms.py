@@ -5,3 +5,8 @@ class FormPergunta(ModelForm):
     class Meta:
         model = Pergunta
         fields = ('texto_pergunta',)
+
+class FormEscolha(ModelForm):
+    class Meta:
+        model = Escolha
+        fields = ('texto_escolha',)

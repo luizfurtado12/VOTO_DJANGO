@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'perguntas.apps.PerguntasConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.humanize'
 ]
 

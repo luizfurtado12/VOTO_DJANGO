@@ -4,9 +4,9 @@ from .models import Pergunta, Escolha
 from django.views import generic
 from django.urls import reverse
 from django.utils import timezone
-from django.db import connection
 from django.db.models import Q
-from .forms import FormPergunta
+from .forms import FormPergunta, FormEscolha
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -33,13 +33,15 @@ class SearchView(IndexView):
         )
         return qs
 
+
 class DetailView(generic.DetailView):
     model = Pergunta
     context_object_name: str = 'question'
     template_name: str = 'detalhes/index_detail.html'
 
     def get_queryset(self):
-        pergunta = Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
+        pergunta = Pergunta.objects.filter(
+            data__lte=timezone.now(), mostra_opcoes=True)
         return pergunta
 
 
@@ -52,11 +54,12 @@ class ResultsView(generic.DeleteView):
         return Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
 
 
-def adicionar_pergunta(request):
-    if request.method == 'POST':
-        form = FormPergunta()
-        return render(request, 'pergunta/form_template.html', {'formulario': form})
-    return redirect('perguntas:index')
+# @login_required(login_url='/perguntas/')
+# def adicionar_pergunta(request):
+#    if request.method != 'POST':
+#         form = FormPergunta()
+#         return render(request, 'pergunta/form_template.html', {'formulario': form})
+#     return redirect('perguntas:index')
 
 
 def votar(request, question_id):
