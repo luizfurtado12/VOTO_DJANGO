@@ -6,18 +6,18 @@
 {% block 'conteudo' %}
   <br>
   <div class="container" style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;">
-    <form method="post">
+    <form method="POST">
       {% csrf_token %}
       <!-- Email input -->
         <div class="form-outline mb-4">
-          <input type="email" id="form2Example1" class="form-control" />
-          <label class="form-label" for="form2Example1">E-mail</label>
+          <label class="form-label" for="form2Example1">Usuario</label>
+          <input type="text" id="form2Example1" class="form-control" name="user" />
         </div>
       
         <!-- Password input -->
         <div class="form-outline mb-4">
-          <input type="password" id="form2Example2" class="form-control" />
           <label class="form-label" for="form2Example2">Senha</label>
+          <input type="password" id="form2Example2" class="form-control" name="senha"/>
         </div>
       
         <!-- 2 column grid layout for inline styling -->
@@ -28,11 +28,6 @@
               <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
               <label class="form-check-label" for="form2Example31"> Lembre-me </label>
             </div>
-          </div>
-      
-          <div class="col">
-            <!-- Simple link -->
-            <a href="#!">Esqueceu a Senha?</a>
           </div>
         </div>
       

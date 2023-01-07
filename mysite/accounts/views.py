@@ -7,7 +7,19 @@ from perguntas.forms import FormPergunta, FormEscolha
 
 # Create your views here.
 def login(request):
-    return render(request, 'accounts_pages/login.html')
+    if request.method != 'POST':
+        return render(request, 'accounts_pages/login.html')
+
+    usuario = request.POST.get('user')
+    senha = request.POST.get('senha')
+    user = auth.authenticate(request, username=usuario, password=senha)
+    if not user:
+        print('acessado!!')
+        return redirect('perguntas:index')
+    else:
+        print('Negado')
+        return redirect('accounts:login')
+    return redirect('perguntas:index')
 
 def logout(request):
     pass
