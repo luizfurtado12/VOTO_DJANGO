@@ -6,6 +6,7 @@
 {% block 'conteudo' %}
   <br>
     <div class="container" style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;">
+        {% include 'parciais/_messages.html' %}
         <form method="POST">
             {% csrf_token %}
             <!-- Email input -->

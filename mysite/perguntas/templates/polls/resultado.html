@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block 'sub-title' %}
+    {% include 'parciais/_messages.html' %}
     <h1 class="mt-5">{{ question.texto_pergunta }}</h1>
 {% endblock %}
 

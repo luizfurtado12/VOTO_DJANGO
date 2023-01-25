@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -12,11 +12,11 @@ def cadastro(request):
 
     nome = request.POST.get('nome')
     sobrenome = request.POST.get('sobrenome')
-    usuario = request.POST.get('usuario')
+    usuario = request.POST.get('usuario')  # tamanho
     email = request.POST.get('email')
     senha = request.POST.get('senha')
     senha_2 = request.POST.get('senha2')
-    # print(nome, sobrenome, usuario, email, senha, senha_2)
+    print(nome, sobrenome, usuario, email, senha, senha_2)
     return render(request, 'forms/cadastro_form.html')
 
 def login(request):
@@ -27,9 +27,20 @@ def login(request):
     senha = request.POST.get('senha')
     user = auth.authenticate(request, username=usuario, password=senha)
     if user:
+        auth.login(request, user)
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'logado com sucesso'
+        )
         return redirect('perguntas:index')
     else:
-        return redirect('accounts:login')
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'Usuario ou senha inválido'
+        )
+        return render(request, 'accounts_pages/login.html')
 
 
 def logout(request):
