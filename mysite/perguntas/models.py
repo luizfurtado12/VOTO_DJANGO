@@ -15,10 +15,7 @@ class Pergunta(models.Model):
 
     def publicado_recentemente(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.date <= now
-
-    def options(self):
-        return not (self.escolha_set.count() == 0)
+        return now - datetime.timedelta(days=1) <= self.data <= now
 
 
 class Escolha(models.Model):

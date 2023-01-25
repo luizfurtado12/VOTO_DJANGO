@@ -53,15 +53,6 @@ class ResultsView(generic.DeleteView):
     def get_queryset(self):
         return Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
 
-
-# @login_required(login_url='/perguntas/')
-# def adicionar_pergunta(request):
-#    if request.method != 'POST':
-#         form = FormPergunta()
-#         return render(request, 'pergunta/form_template.html', {'formulario': form})
-#     return redirect('perguntas:index')
-
-
 def votar(request, question_id):
     question = get_object_or_404(Pergunta, pk=question_id)
     try:
