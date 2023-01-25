@@ -54,7 +54,7 @@ class ResultsView(generic.DeleteView):
 def votar(request, question_id):
     question = get_object_or_404(Pergunta, pk=question_id)
     try:
-        selected_choice = question.escolha_set.get(pk=request.POST['escolha'])
+        selected_choice = question.escolha_set.get(pk=request.POST['escolha'])  # está certo, não é um erro crítico
     except (KeyError, Escolha.DoesNotExist):
         return render(
             request,
@@ -66,4 +66,4 @@ def votar(request, question_id):
     else:
         selected_choice.votos += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('perguntas:resultado', args=(question.id, )))
+        return HttpResponseRedirect(reverse('perguntas:resultado', args=(question.id, )))  # está certo, não é um erro crítico

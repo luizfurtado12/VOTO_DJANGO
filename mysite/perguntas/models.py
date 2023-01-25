@@ -3,22 +3,20 @@ from django.utils import timezone
 import datetime
 
 # Create your models here.
-
-
 class Pergunta(models.Model):
     texto_pergunta = models.CharField(max_length=255)
     data = models.DateTimeField('Data da Publicação')
-    mostra_opcoes = models.BooleanField(default=True)
+    mostra_opcoes = models.BooleanField(default=False)
 
     def __str__(self):
         return self.texto_pergunta
 
     def publicado_recentemente(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.date <= now
+        return now - datetime.timedelta(days=1) <= self.data <= now
 
-    def options(self):
-        return not (self.escolha_set.count() == 0)
+    # def options(self):
+    #     return not (self.escolha_set.count() == 0)
 
 
 class Escolha(models.Model):
