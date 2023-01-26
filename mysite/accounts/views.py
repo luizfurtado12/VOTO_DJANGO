@@ -16,7 +16,20 @@ def cadastro(request):
     email = request.POST.get('email')
     senha = request.POST.get('senha')
     senha_2 = request.POST.get('senha2')
-    print(nome, sobrenome, usuario, email, senha, senha_2)
+
+    if len(nome.strip()) == 0 or len(sobrenome.strip()) == 0 or len(senha.strip()) == 0 or len(usuario.strip()) == 0:
+        # print(nome.strip(), len(nome.strip()))
+        # print(nome, sobrenome, usuario, email, senha, senha_2)
+        messages.error(request, 'Inválido')
+        return render(request, 'forms/cadastro_form.html')
+    if not senha == senha_2:
+        messages.error(request, 'ERROR: Senhas diferentes')
+        return render(request, 'forms/cadastro_form.html')
+    if len(usuario) <= 5:
+        messages.error(request, 'ERROR: usuario precisa ter mais do que 5 caracteres')
+        return render(request, 'forms/cadastro_form.html')
+
+    messages.info(request, 'continuar...')
     return render(request, 'forms/cadastro_form.html')
 
 def login(request):
