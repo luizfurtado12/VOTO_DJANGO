@@ -47,7 +47,7 @@ def cadastro(request):
             email=email,
             first_name=nome,
             last_name=sobrenome,
-            password=senha
+            password=senha,
         )
         user.save()
         messages.success(request, 'Usuario cadastro com sucesso')

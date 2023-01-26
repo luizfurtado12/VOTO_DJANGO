@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 import datetime
 
 # Create your models here.
@@ -9,6 +10,7 @@ class Pergunta(models.Model):
     texto_pergunta = models.CharField(max_length=255)
     data = models.DateTimeField('Data da Publicação')
     mostra_opcoes = models.BooleanField(default=False)
+    autor = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True, verbose_name='Autor')
 
     def __str__(self):
         return self.texto_pergunta
