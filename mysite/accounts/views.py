@@ -13,24 +13,50 @@ def cadastro(request):
     nome = request.POST.get('nome')
     sobrenome = request.POST.get('sobrenome')
     usuario = request.POST.get('usuario')  # tamanho
-    email = request.POST.get('email')
+    email = request.POST.get('email')  # Verificar se o e-mail já está sendo usado por outro usuario
     senha = request.POST.get('senha')
     senha_2 = request.POST.get('senha2')
 
+    # Validação
+    try:
+        validate_email(email)
+    except Exception as e:
+        print(e)
+        messages.error(request, 'E-mail inválido')
+        return render(request, 'forms/cadastro_form.html')
+
     if len(nome.strip()) == 0 or len(sobrenome.strip()) == 0 or len(senha.strip()) == 0 or len(usuario.strip()) == 0:
-        # print(nome.strip(), len(nome.strip()))
-        # print(nome, sobrenome, usuario, email, senha, senha_2)
         messages.error(request, 'Inválido')
         return render(request, 'forms/cadastro_form.html')
-    if not senha == senha_2:
+    if senha != senha_2:
         messages.error(request, 'ERROR: Senhas diferentes')
         return render(request, 'forms/cadastro_form.html')
     if len(usuario) <= 5:
         messages.error(request, 'ERROR: usuario precisa ter mais do que 5 caracteres')
         return render(request, 'forms/cadastro_form.html')
+    if User.objects.filter(username=usuario).exists():
+        messages.error(request, 'Nome de usuario já existe')
+        return render(request, 'forms/cadastro_form.html')
+    if User.objects.filter(email=email).exists():
+        messages.error(request, 'E-mail já cadastro, tente outro endereço de E-mail')
+        return render(request, 'forms/cadastro_form.html')
 
-    messages.info(request, 'continuar...')
-    return render(request, 'forms/cadastro_form.html')
+    try:
+        user = User.objects.create_user(
+            username=usuario,
+            email=email,
+            first_name=nome,
+            last_name=sobrenome,
+            password=senha
+        )
+        user.save()
+        messages.success(request, 'Usuario cadastro com sucesso')
+        return redirect('accounts:login')
+    except Exception as e:
+        print(e)
+        messages.error(request, 'Error interno, por favo tente mais tarde')
+        return render(request, 'forms/cadastro_form.html')
+
 
 def login(request):
     if request.method != 'POST':
