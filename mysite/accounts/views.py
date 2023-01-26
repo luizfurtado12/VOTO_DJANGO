@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from perguntas.forms import FormPergunta, FormEscolha
 
 # Create your views here.
+
+
 def cadastro(request):
     if request.method == 'GET':
         return render(request, 'forms/cadastro_form.html')
@@ -13,7 +15,8 @@ def cadastro(request):
     nome = request.POST.get('nome')
     sobrenome = request.POST.get('sobrenome')
     usuario = request.POST.get('usuario')  # tamanho
-    email = request.POST.get('email')  # Verificar se o e-mail já está sendo usado por outro usuario
+    # Verificar se o e-mail já está sendo usado por outro usuario
+    email = request.POST.get('email')
     senha = request.POST.get('senha')
     senha_2 = request.POST.get('senha2')
 
@@ -32,13 +35,15 @@ def cadastro(request):
         messages.error(request, 'ERROR: Senhas diferentes')
         return render(request, 'forms/cadastro_form.html')
     if len(usuario) <= 5:
-        messages.error(request, 'ERROR: usuario precisa ter mais do que 5 caracteres')
+        messages.error(
+            request, 'ERROR: usuario precisa ter mais do que 5 caracteres')
         return render(request, 'forms/cadastro_form.html')
     if User.objects.filter(username=usuario).exists():
         messages.error(request, 'Nome de usuario já existe')
         return render(request, 'forms/cadastro_form.html')
     if User.objects.filter(email=email).exists():
-        messages.error(request, 'E-mail já cadastro, tente outro endereço de E-mail')
+        messages.error(
+            request, 'E-mail já cadastro, tente outro endereço de E-mail')
         return render(request, 'forms/cadastro_form.html')
 
     try:
@@ -87,9 +92,21 @@ def logout(request):
     return redirect('login')
 
 
+@login_required(redirect_field_name='accounts:login')
 def adicionar_pergunta(request):
-    pass
+    template = render(request, 'forms/pergunta_form.html', {'form': FormPergunta})
+    if request.method == 'GET':
+        return template
 
+    if request.method == 'POST':
+        text_polls = request.POST.get('texto_pergunta')
+        print(text_polls)
+        messages.info(request, 'continua...')
+        return template
+
+# @staticmethod
+# def form_valid(form):
+#     pass
 
 def dashboard(request):
     pass
