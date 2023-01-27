@@ -6,9 +6,9 @@
     <h1 style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;"> Faça sua enquete:</h1>
 {% endblock %}
 {% block 'conteudo' %}
+    {% include 'parciais/_messages.html' %}
     <form action="{% url 'accounts:fazer_pergunta' %}" method="POST" style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;">
         {% csrf_token %}
-        {% include 'parciais/_messages.html' %}
         <div class="form-group">
             {{ form }} 
         </div>

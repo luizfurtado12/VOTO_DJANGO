@@ -1,13 +1,14 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
+from django.views.generic.edit import UpdateView
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from perguntas.models import Pergunta, Escolha
 from perguntas.forms import FormPergunta, FormEscolha
 
 # Create your views here.
-
-
 def cadastro(request):
     if request.method == 'GET':
         return render(request, 'forms/cadastro_form.html')
@@ -92,7 +93,7 @@ def logout(request):
     return redirect('login')
 
 
-@login_required(redirect_field_name='accounts:login')
+@login_required(login_url='login')
 def adicionar_pergunta(request):
     template = render(request, 'forms/pergunta_form.html', {'form': FormPergunta})
     if request.method == 'GET':
@@ -100,13 +101,24 @@ def adicionar_pergunta(request):
 
     if request.method == 'POST':
         text_polls = request.POST.get('texto_pergunta')
-        print(text_polls)
-        messages.info(request, 'continua...')
-        return template
 
-# @staticmethod
-# def form_valid(form):
-#     pass
+        if len(text_polls.strip()) < 1:
+            messages.error(request, 'Campo não pode ser vazio')
+            return template
+
+        try:
+            pergunta = Pergunta(
+                texto_pergunta=text_polls,
+                autor=request.user,
+                data=timezone.now()
+            )
+            pergunta.save()
+            messages.success(request, 'Pergunta foi feita com sucesso, adicione as opções')
+            return template
+        except Exception as e:
+            messages.error(request, 'Erro interno')
+            print(e)
+            return template
 
 def dashboard(request):
     pass
