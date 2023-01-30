@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block 'title' %}
+    <title> cadastrar pergunta </title>
+{% endblock %}
+{% block 'sub-title' %}
+    <h1 style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;"> Faça sua enquete:</h1>
+{% endblock %}
+{% block 'conteudo' %}
+    {% include 'parciais/_messages.html' %}
+    <form action="{% url 'accounts:fazer_escolhas' %}" method="POST" style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ choice }} 
+        </div>
+        <button type="submit" class="btn btn-outline-info btn-block mb-4">Salvar opção</button>
+    </form>
+{% endblock %}

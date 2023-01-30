@@ -2,11 +2,14 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.views.generic.edit import UpdateView
+from django.views.generic.list import ListView
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from perguntas.models import Pergunta, Escolha
 from perguntas.forms import FormPergunta, FormEscolha
+from perguntas.views import IndexView
+
 
 # Create your views here.
 def cadastro(request):
@@ -78,7 +81,7 @@ def login(request):
             messages.SUCCESS,
             'logado com sucesso'
         )
-        return redirect('perguntas:index')
+        return redirect('accounts:perfil')
     else:
         messages.add_message(
             request,
@@ -88,14 +91,10 @@ def login(request):
         return render(request, 'accounts_pages/login.html')
 
 
-def logout(request):
-    auth.logout(request)
-    return redirect('login')
-
-
-@login_required(login_url='login')
+# @login_required(redirect_field_name='accounts:login')
 def adicionar_pergunta(request):
-    template = render(request, 'forms/pergunta_form.html', {'form': FormPergunta})
+    template = render(request, 'forms/pergunta_form.html',
+                      {'form': FormPergunta})
     if request.method == 'GET':
         return template
 
@@ -113,12 +112,37 @@ def adicionar_pergunta(request):
                 data=timezone.now()
             )
             pergunta.save()
-            messages.success(request, 'Pergunta foi feita com sucesso, adicione as opções')
-            return template
+            messages.success(
+                request, 'Pergunta foi feita com sucesso, adicione as opções')
+            return redirect('accounts:fazer_escolhas')
         except Exception as e:
             messages.error(request, 'Erro interno')
             print(e)
             return template
 
+
+# @login_required(redirect_field_name='accounts:login')
+def make_choice(request):
+    # polls = Pergunta.objects.filter(autor=request.user)
+    template = render(request, 'forms/options_form.html',
+                      {'choice': FormEscolha})
+
+    if request.method == 'GET':
+        return template
+
+    if request.mehot == 'post':
+        messages.success(request, 'continua...')
+        return template
+
+
+@login_required(redirect_field_name='accounts:login')
 def dashboard(request):
-    pass
+    polls = Pergunta.objects.filter(
+        autor=request.user
+    )
+    return render(request, 'dashboard.html', {'polls': polls})
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('login')

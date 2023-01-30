@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block 'title' %}
+    <title>
+        Perfil
+    </title>
+{% endblock %}
+{% block 'conteudo' %}
+    {% if not polls %}
+        <h1>
+            Você ainda não tem perguntas no sistema
+        </h1>
+    {% else %}
+        {% for poll in polls %}
+        <h1>
+            {{poll}}
+        </h1>
+        <p>{{ poll.autor }}</p>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
