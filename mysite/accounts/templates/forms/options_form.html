@@ -8,8 +8,8 @@
     <h1 style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;"> Faça sua enquete:</h1>
 {% endblock %}
 {% block 'conteudo' %}
-    {% include 'parciais/_messages.html' %}
     <form action="{% url 'accounts:fazer_escolhas' %}" method="POST" style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;">
+        {% include 'parciais/_messages.html' %}
         {% csrf_token %}
         <table class="table">
             {% for hidden_field in choice.hidden_fields %}

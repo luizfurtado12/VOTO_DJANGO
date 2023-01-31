@@ -125,14 +125,26 @@ def adicionar_pergunta(request):
 def make_choice(request):
     polls = Pergunta.objects.filter(autor=request.user)
     template = render(request, 'forms/options_form.html',
-                      {'choice': FormEscolha, 'polls': polls})
+                      {'choice': FormEscolha,
+                       'polls': polls}
+                      )
 
     if request.method == 'GET':
         return template
 
     if request.method == 'POST':
+        options_text = request.POST.get('texto_escolha')
+        pergunta = request.POST.get('perguntas')
+        escolhas = Escolha.objects.all()
+        perguntas = Pergunta.objects.filter(id=pergunta)
+        print(perguntas)
+
+        if len(options_text.strip()) < 1:
+            messages.error(request, 'Campo não pode ser vazio')
+            return template
+
         messages.success(request, 'continua...')
-        return template
+        return redirect('accounts:fazer_escolhas')
 
 
 @login_required(redirect_field_name='accounts:login')
