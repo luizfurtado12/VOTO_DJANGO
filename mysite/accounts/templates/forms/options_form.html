@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% block 'title' %}
     <title> cadastrar pergunta </title>
 {% endblock %}
@@ -9,8 +11,22 @@
     {% include 'parciais/_messages.html' %}
     <form action="{% url 'accounts:fazer_escolhas' %}" method="POST" style="width: 40%; height: auto; align-items: center; padding: 10px 5px 5px 10px; margin: auto;">
         {% csrf_token %}
+        <table class="table">
+            {% for hidden_field in choice.hidden_fields %}
+                {{hidden_field}}
+            {% endfor %}
+            {% for visible_field in choice.visible_fields %}
+                {{ visible_field|as_crispy_field }}               
+            {% endfor %}
+        </table>
+
         <div class="form-group">
-            {{ choice }} 
+            <span>Selecione a pergunta* </span> <br>
+            <select name="perguntas" class="select-label">
+                {% for poll in polls %}
+                    <option value="{{poll.id}}">{{poll}}</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit" class="btn btn-outline-info btn-block mb-4">Salvar opção</button>
     </form>

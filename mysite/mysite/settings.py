@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'perguntas.apps.PerguntasConfig',
     'accounts.apps.AccountsConfig',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

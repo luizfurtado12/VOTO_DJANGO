@@ -123,14 +123,14 @@ def adicionar_pergunta(request):
 
 # @login_required(redirect_field_name='accounts:login')
 def make_choice(request):
-    # polls = Pergunta.objects.filter(autor=request.user)
+    polls = Pergunta.objects.filter(autor=request.user)
     template = render(request, 'forms/options_form.html',
-                      {'choice': FormEscolha})
+                      {'choice': FormEscolha, 'polls': polls})
 
     if request.method == 'GET':
         return template
 
-    if request.mehot == 'post':
+    if request.method == 'POST':
         messages.success(request, 'continua...')
         return template
 

@@ -6,6 +6,7 @@
     </title>
 {% endblock %}
 {% block 'conteudo' %}
+    {% include 'parciais/_messages.html' %}
     {% if not polls %}
         <h1>
             Você ainda não tem perguntas no sistema
