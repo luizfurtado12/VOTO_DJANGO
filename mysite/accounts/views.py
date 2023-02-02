@@ -1,5 +1,5 @@
 from django.utils import timezone
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth, messages
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
@@ -91,7 +91,7 @@ def login(request):
         return render(request, 'accounts_pages/login.html')
 
 
-# @login_required(redirect_field_name='accounts:login')
+@login_required(redirect_field_name='accounts:login')
 def adicionar_pergunta(request):
     template = render(request, 'forms/pergunta_form.html',
                       {'form': FormPergunta})
@@ -121,7 +121,7 @@ def adicionar_pergunta(request):
             return template
 
 
-# @login_required(redirect_field_name='accounts:login')
+@login_required(redirect_field_name='accounts:login')
 def make_choice(request):
     polls = Pergunta.objects.filter(autor=request.user)
     template = render(request, 'forms/options_form.html',
@@ -134,16 +134,26 @@ def make_choice(request):
 
     if request.method == 'POST':
         options_text = request.POST.get('texto_escolha')
-        pergunta = request.POST.get('perguntas')
-        escolhas = Escolha.objects.all()
-        perguntas = Pergunta.objects.filter(id=pergunta)
-        print(perguntas)
+        pergunta_id = request.POST.get('perguntas')
+        # escolhas = Escolha.objects.all()
+        # perguntas = Pergunta.objects.filter(id=pergunta)
+        # print(perguntas)
 
         if len(options_text.strip()) < 1:
             messages.error(request, 'Campo não pode ser vazio')
             return template
-
-        messages.success(request, 'continua...')
+        if len(options_text.strip()) >= 200:
+            messages.error(request, 'a opção tem que ser menor do que 200 caracteres')
+            return template
+        question = get_object_or_404(Pergunta, pk=pergunta_id)
+        try:
+            selected_choice = question.escolha_set.create(texto_escolha=options_text, votos=0)
+            selected_choice.save()
+            messages.success(request, 'Opção salvo com sucesso')
+        except Exception as e:
+            print(e)
+            messages.error(request, 'Error interno, tente mais tarde')
+        # messages.success(request, 'continua...')
         return redirect('accounts:fazer_escolhas')
 
 
