@@ -1,14 +1,11 @@
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth, messages
-from django.views.generic.edit import UpdateView
-from django.views.generic.list import ListView
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from perguntas.models import Pergunta, Escolha
 from perguntas.forms import FormPergunta, FormEscolha
-from perguntas.views import IndexView
 
 
 # Create your views here.
@@ -162,7 +159,7 @@ def dashboard(request):
     polls = Pergunta.objects.filter(
         autor=request.user
     )
-    return render(request, 'dashboard.html', {'polls': polls})
+    return render(request, 'dashboard.html', {'latest_question_list': polls})
 
 
 def logout(request):

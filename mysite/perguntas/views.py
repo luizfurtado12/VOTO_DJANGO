@@ -5,8 +5,6 @@ from django.views import generic
 from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Q
-from .forms import FormPergunta, FormEscolha
-from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -43,7 +41,6 @@ class DetailView(generic.DetailView):
         pergunta = Pergunta.objects.filter(
             data__lte=timezone.now(), mostra_opcoes=True)
         return pergunta
-
 
 class ResultsView(generic.DeleteView):
     model = Pergunta

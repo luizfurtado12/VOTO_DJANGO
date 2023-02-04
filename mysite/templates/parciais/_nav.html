@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg static-top" style="background: #0047ab;" >
     <div class="container">
-        <a class="navbar-brand" href="#" style="color: field;" >Home</a>
+        <a class="navbar-brand" href="{% url 'accounts:perfil'%}" style="color: field;" >Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,8 +8,12 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a style="color: field;" class="nav-item nav-link active" href="{% url 'perguntas:index' %}">Perguntas <span class="sr-only">(current)</span></a>
-                <a style="color: field;" class="nav-item nav-link active" href="{% url 'accounts:login' %}">Login <span class="sr-only">(current)</span></a>
-                
+                {% if user.is_authenticated %}
+                    <a style="color: field;" class="nav-item nav-link active" href="{% url 'accounts:fazer_pergunta' %}">Criar enquete <span class="sr-only">(current)</span></a>
+                    <a style="color: field;" class="nav-item nav-link active" href="{% url 'accounts:sair' %}">Sair <span class="sr-only">(current)</span></a>
+                {% else %}
+                    <a style="color: field;" class="nav-item nav-link active" href="{% url 'accounts:login' %}">Login <span class="sr-only">(current)</span></a>
+                {% endif %}
             </div>
         </div>
     </div>
