@@ -11,12 +11,13 @@ from django.db.models import Q
 class IndexView(generic.ListView):
     template_name: str = 'polls/index.html'
     context_object_name = 'latest_question_list'
+    paginate_by = 5
 
     def get_queryset(self):
         # choice = Pergunta.options()
         pergunta = Pergunta.objects.filter(
             data__lte=timezone.now(), mostra_opcoes=True
-        ).order_by('-data')[:10]
+        ).order_by('-data')
         return pergunta
 
 

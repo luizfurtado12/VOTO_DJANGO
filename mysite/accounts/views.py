@@ -3,12 +3,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth, messages
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from perguntas.models import Pergunta, Escolha
 from perguntas.forms import FormPergunta, FormEscolha
-
+from perguntas.views import IndexView
 
 # Create your views here.
+class Dashboard(LoginRequiredMixin, IndexView):
+    template_name: str = 'dashboard.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = Pergunta.objects.filter(
+            autor=self.request.user
+        )
+        return qs
+
+
 def cadastro(request):
     if request.method == 'GET':
         return render(request, 'forms/cadastro_form.html')
@@ -64,6 +75,7 @@ def cadastro(request):
         return render(request, 'forms/cadastro_form.html')
 
 
+
 def login(request):
     if request.method != 'POST':
         return render(request, 'accounts_pages/login.html')
@@ -88,7 +100,6 @@ def login(request):
         return render(request, 'accounts_pages/login.html')
 
 
-@login_required(redirect_field_name='accounts:login')
 def adicionar_pergunta(request):
     template = render(request, 'forms/pergunta_form.html',
                       {'form': FormPergunta})
@@ -118,7 +129,6 @@ def adicionar_pergunta(request):
             return template
 
 
-@login_required(redirect_field_name='accounts:login')
 def make_choice(request):
     polls = Pergunta.objects.filter(autor=request.user)
     template = render(request, 'forms/options_form.html',
@@ -140,11 +150,13 @@ def make_choice(request):
             messages.error(request, 'Campo não pode ser vazio')
             return template
         if len(options_text.strip()) >= 200:
-            messages.error(request, 'a opção tem que ser menor do que 200 caracteres')
+            messages.error(
+                request, 'a opção tem que ser menor do que 200 caracteres')
             return template
         question = get_object_or_404(Pergunta, pk=pergunta_id)
         try:
-            selected_choice = question.escolha_set.create(texto_escolha=options_text, votos=0)
+            selected_choice = question.escolha_set.create(
+                texto_escolha=options_text, votos=0)
             selected_choice.save()
             messages.success(request, 'Opção salvo com sucesso')
         except Exception as e:
@@ -152,14 +164,6 @@ def make_choice(request):
             messages.error(request, 'Error interno, tente mais tarde')
         # messages.success(request, 'continua...')
         return redirect('accounts:fazer_escolhas')
-
-
-@login_required(redirect_field_name='accounts:login')
-def dashboard(request):
-    polls = Pergunta.objects.filter(
-        autor=request.user
-    )
-    return render(request, 'dashboard.html', {'latest_question_list': polls})
 
 
 def logout(request):
