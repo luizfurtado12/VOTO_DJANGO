@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block 'conteudo' %}
+    <fieldset>
+        <legend> <h1>{{ question.texto_pergunta }}</h1> </legend>
+        <p><small> {{ question.data }} </small></p>
+        {% if not question.escolha_set.all %}
+            <p><strong> Sem opções</strong></p>
+        {% endif %}
+        {% for choice in question.escolha_set.all %}
+            <p> {{ choice.texto_escolha }} -- {{ choice.votos }} voto{{ choice.votos|pluralize }} </p>
+        {% endfor %}
+        
+        <a href="{% url 'accounts:fazer_escolhas' %}" target="_blank" rel="noopener noreferrer" >Adicionar Escolha</a>
+    </fieldset>
+    
+{% endblock %}

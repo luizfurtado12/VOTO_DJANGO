@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from perguntas.models import Pergunta, Escolha
 from perguntas.forms import FormPergunta, FormEscolha
-from perguntas.views import IndexView
+from perguntas.views import IndexView, DetailView
 
 # Create your views here.
 class Dashboard(LoginRequiredMixin, IndexView):
@@ -18,6 +18,9 @@ class Dashboard(LoginRequiredMixin, IndexView):
             autor=self.request.user
         )
         return qs
+
+class DetalheView(LoginRequiredMixin, DetailView):
+    template_name: str = 'detalhe_page.html'
 
 
 def cadastro(request):
@@ -73,7 +76,6 @@ def cadastro(request):
         print(e)
         messages.error(request, 'Error interno, por favo tente mais tarde')
         return render(request, 'forms/cadastro_form.html')
-
 
 
 def login(request):
