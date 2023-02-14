@@ -2,6 +2,7 @@
 {% load humanize %}
 
 {% block 'sub-title' %}
+    {% include 'parciais/_messages.html' %}
     <h1 class="mt-5">Perguntas:</h1>
     <br>
 {% endblock %}
@@ -13,6 +14,7 @@
                 <tr>
                     <th>Pergunta</th>
                     <th>Data</th>
+                    <th>Autor</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +25,9 @@
                     </th>
                     <th>
                         {{pergunta.data|naturalday }}
+                    </th>
+                    <th>
+                        {{ pergunta.autor }}
                     </th>
                 </tr>
                 <!-- {% if pergunta.options %} -->
@@ -36,6 +41,6 @@
             {% endfor %}
         </ul> -->
     {% else %}
-        <p>Não a perguntas no momento!</p>
+        <p>Não a pergunta no momento!</p>
     {% endif %}
 {% endblock %}

@@ -2,5 +2,10 @@
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": false,
     "python.linting.enabled": true,
+<<<<<<< HEAD
     "python.analysis.typeCheckingMode": "basic"
+=======
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.pylintEnabled": false
+>>>>>>> test-polls
 }

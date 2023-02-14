@@ -5,7 +5,7 @@ from .models import Pergunta, Escolha
 
 
 class PerguntaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'texto_pergunta', 'data', 'mostra_opcoes')
+    list_display = ('id', 'texto_pergunta', 'data', 'autor', 'mostra_opcoes')
     list_display_links = ('id', 'texto_pergunta')
     list_editable = ('mostra_opcoes',)
     list_filter = ('data', )

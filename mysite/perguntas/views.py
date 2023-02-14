@@ -1,10 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from .models import Pergunta, Escolha
 from django.views import generic
 from django.urls import reverse
 from django.utils import timezone
-from django.db import connection
 from django.db.models import Q
 
 
@@ -12,12 +11,13 @@ from django.db.models import Q
 class IndexView(generic.ListView):
     template_name: str = 'polls/index.html'
     context_object_name = 'latest_question_list'
+    paginate_by = 5
 
     def get_queryset(self):
         # choice = Pergunta.options()
         pergunta = Pergunta.objects.filter(
             data__lte=timezone.now(), mostra_opcoes=True
-        ).order_by('-data')[:10]
+        ).order_by('-data')
         return pergunta
 
 
@@ -32,15 +32,16 @@ class SearchView(IndexView):
         )
         return qs
 
+
 class DetailView(generic.DetailView):
     model = Pergunta
     context_object_name: str = 'question'
     template_name: str = 'detalhes/index_detail.html'
 
     def get_queryset(self):
-        pergunta = Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
+        pergunta = Pergunta.objects.filter(
+            data__lte=timezone.now(), mostra_opcoes=True)
         return pergunta
-
 
 class ResultsView(generic.DeleteView):
     model = Pergunta
@@ -49,7 +50,6 @@ class ResultsView(generic.DeleteView):
 
     def get_queryset(self):
         return Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
-
 
 def votar(request, question_id):
     question = get_object_or_404(Pergunta, pk=question_id)

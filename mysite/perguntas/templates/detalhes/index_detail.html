@@ -9,8 +9,8 @@
             <p><strong>{{ error_message }}</strong> </p>
             {% endif %}
             {% for choice in question.escolha_set.all %}
-            <input type="radio" name="escolha" id="escolha{{ forloop.counter }}" value="{{ choice.id }}">
-            <label for="choice{{ forloop.counter }}">{{ choice.texto_escolha }}</label><br>
+                <input type="radio" name="escolha" id="escolha{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.texto_escolha }}</label><br>
             {% endfor %} 
         </fieldset>
         <input type="submit" value="vote" >

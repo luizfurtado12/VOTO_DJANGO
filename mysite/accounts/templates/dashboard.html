@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+    <title>
+        Suas Perguntas
+    </title>
+{% endblock %}
+
+{% block 'sub-title' %}
+    {% include 'parciais/_messages.html' %}
+    <h1 class="mt-5" > Suas Perguntas: </h1>
+    <br>
+{% endblock %}
+
+{% block 'conteudo' %}
+    {% if latest_question_list %}
+        <table class="table" style="color: field;">
+            <thead>
+                <tr>
+                    <th>Pergunta</th>
+                    <th>Data</th>
+                    <th>Autor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pergunta in latest_question_list %}
+                <tr>
+                    <th>
+                        <a href="{% url 'accounts:detail' pergunta.id %}"> {{pergunta.texto_pergunta}} </a>
+                    </th>
+                    <th>
+                        {{pergunta.data|naturalday }}
+                    </th>
+                    <th>
+                        {{ pergunta.autor }}
+                    </th>
+                </tr>
+                <!-- {% if pergunta.options %} -->
+                    <!-- {% endif %} -->
+                    {% endfor %}
+            </tbody>
+        </table>
+    <!-- <ul>
+            {% for pergunta in lista_perguntas %}
+                <li> <a href="{% url  'detalhe' question_id=pergunta.id %}"> {{ pergunta.texto_pergunta }} </a> </li>
+            {% endfor %}
+        </ul> -->
+    {% else %}
+        <p>Não a pergunta no momento!</p>
+    {% endif %}
+{% endblock %}
+

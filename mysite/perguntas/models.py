@@ -17,9 +17,6 @@ class Pergunta(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.data <= now
 
-    # def options(self):
-    #     return not (self.escolha_set.count() == 0)
-
 
 class Escolha(models.Model):
     # Object.escolha_set.count()=0 | para nenhuma resposta
