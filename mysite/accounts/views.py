@@ -15,12 +15,15 @@ class Dashboard(LoginRequiredMixin, IndexView):
     def get_queryset(self):
         qs = super().get_queryset()
         qs = Pergunta.objects.filter(
-            autor=self.request.user
-        )
+            autor=self.request.user, mostra_opcoes=True
+        ).order_by('-data')
         return qs
 
 class DetalheView(LoginRequiredMixin, DetailView):
     template_name: str = 'detalhe_page.html'
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 
 def cadastro(request):
@@ -170,4 +173,4 @@ def make_choice(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('login')
+    return redirect('accounts:login')

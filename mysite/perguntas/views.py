@@ -43,6 +43,7 @@ class DetailView(generic.DetailView):
             data__lte=timezone.now(), mostra_opcoes=True)
         return pergunta
 
+
 class ResultsView(generic.DeleteView):
     model = Pergunta
     context_object_name: str = 'question'
@@ -51,10 +52,12 @@ class ResultsView(generic.DeleteView):
     def get_queryset(self):
         return Pergunta.objects.filter(data__lte=timezone.now(), mostra_opcoes=True)
 
+
 def votar(request, question_id):
     question = get_object_or_404(Pergunta, pk=question_id)
     try:
-        selected_choice = question.escolha_set.get(pk=request.POST['escolha'])  # está certo, não é um erro crítico
+        selected_choice = question.escolha_set.get(
+            pk=request.POST['escolha'])  # está certo, não é um erro crítico
     except (KeyError, Escolha.DoesNotExist):
         return render(
             request,
@@ -66,4 +69,5 @@ def votar(request, question_id):
     else:
         selected_choice.votos += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('perguntas:resultado', args=(question.id, )))  # está certo, não é um erro crítico
+        # está certo, não é um erro crítico
+        return HttpResponseRedirect(reverse('perguntas:resultado', args=(question.id, )))
