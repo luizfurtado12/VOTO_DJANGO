@@ -29,10 +29,16 @@ class SearchView(IndexView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        termo = self.request.GET.get('termo')
+        termo = self.request.GET.get('termo') or self.request.session.get('termo')
+
+        if not termo:
+            return qs
+
+        self.request.session['termo'] = termo
         qs = qs.filter(
             Q(texto_pergunta__icontains=termo)
         )
+        self.request.session.save()
         return qs
 
 

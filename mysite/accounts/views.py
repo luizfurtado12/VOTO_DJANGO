@@ -33,7 +33,6 @@ def cadastro(request):
     nome = request.POST.get('nome')
     sobrenome = request.POST.get('sobrenome')
     usuario = request.POST.get('usuario')  # tamanho
-    # Verificar se o e-mail já está sendo usado por outro usuario
     email = request.POST.get('email')
     senha = request.POST.get('senha')
     senha_2 = request.POST.get('senha2')
@@ -147,9 +146,6 @@ def make_choice(request):
     if request.method == 'POST':
         options_text = request.POST.get('texto_escolha')
         pergunta_id = request.POST.get('perguntas')
-        # escolhas = Escolha.objects.all()
-        # perguntas = Pergunta.objects.filter(id=pergunta)
-        # print(perguntas)
 
         if len(options_text.strip()) < 1:
             messages.error(request, 'Campo não pode ser vazio')
