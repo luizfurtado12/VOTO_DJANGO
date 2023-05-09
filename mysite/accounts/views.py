@@ -14,7 +14,7 @@ class Dashboard(LoginRequiredMixin, IndexView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        qs = Pergunta.objects.filter(
+        qs = qs.filter(
             autor=self.request.user, mostra_opcoes=True
         ).order_by('-data')
         return qs
@@ -160,7 +160,7 @@ def make_choice(request):
             return template
         question = get_object_or_404(Pergunta, pk=pergunta_id)
         try:
-            selected_choice = question.escolha_set.create(
+            selected_choice = question.escolha_set.create(  # type: ignore
                 texto_escolha=options_text, votos=0)
             selected_choice.save()
             messages.success(request, 'Opção salvo com sucesso')
