@@ -2,8 +2,8 @@
 **criando um site para fazer uma votação e mostrar os votos contabilizados**
 
 ## Error:
-    Está dando error ao conectar o banco de dados: CORRIGIDO
+    Ao fazer a busca e ter mais de uma pagina e acessar essa pagina não está dando certo: refatorar
 
 ## Refazer:
-    Recriar tudo do app polls com nome "perguntas":
+    Diminuir a consultar no banco de dados
 
